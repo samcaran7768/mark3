@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Sarukesh builds at the intersection of hardware, software, autonomy, and local AI.">
+  <title>Sarukesh — Hardware × Software</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #edf0e8;
+      --muted: #a5ada2;
+      --bg: #111713;
+      --panel: #19211b;
+      --line: rgba(237, 240, 232, .14);
+      --acid: #d5f264;
+      --orange: #ff8e63;
+      --max: 1160px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: inherit; }
+    .wrap { width: min(var(--max), calc(100% - 48px)); margin-inline: auto; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; padding: 25px 0; border-bottom: 1px solid var(--line); }
+    .wordmark { text-decoration: none; font-size: 14px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .wordmark span { color: var(--acid); }
+    nav { display: flex; gap: 28px; align-items: center; }
+    nav a { color: var(--muted); font-size: 13px; text-decoration: none; }
+    nav a:hover, nav a:focus-visible { color: var(--acid); }
+    .availability { display: inline-flex; align-items: center; gap: 9px; color: var(--muted); font-size: 12px; letter-spacing: .04em; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--acid); box-shadow: 0 0 14px #d5f26488; }
+    .hero { display: grid; grid-template-columns: 1.12fr .88fr; align-items: center; gap: 72px; padding: 84px 0 102px; }
+    .eyebrow { color: var(--acid); font-size: 11px; font-weight: 750; letter-spacing: .2em; text-transform: uppercase; }
+    h1 { max-width: 750px; margin: 20px 0 22px; font-size: clamp(48px, 7vw, 86px); line-height: .98; letter-spacing: -.065em; }
+    h1 em { color: var(--acid); font-style: normal; }
+    .lede { max-width: 610px; color: #c2c9bc; font-size: clamp(17px, 2vw, 20px); line-height: 1.6; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 47px; padding: 0 19px; border: 1px solid var(--line); border-radius: 3px; color: var(--ink); font-size: 13px; font-weight: 700; text-decoration: none; transition: transform .2s, background .2s; }
+    .button:hover { transform: translateY(-2px); }
+    .button.primary { background: var(--acid); border-color: var(--acid); color: #151b13; }
+    .portrait-frame { position: relative; padding: 12px; background: #202a22; border: 1px solid var(--line); transform: rotate(1.6deg); }
+    .portrait-frame::before { position: absolute; z-index: -1; content: ""; inset: 15px -15px -15px 15px; border: 1px solid #d5f26466; }
+    .portrait { display: block; width: 100%; aspect-ratio: 4 / 4.7; object-fit: cover; object-position: center 47%; filter: saturate(.86); }
+    .photo-caption { display: flex; justify-content: space-between; gap: 12px; padding: 13px 1px 0; color: var(--muted); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-block: 1px solid var(--line); }
+    .stat { padding: 22px 24px; border-right: 1px solid var(--line); }
+    .stat:first-child { padding-left: 0; }
+    .stat:last-child { border: 0; }
+    .stat strong { display: block; margin-bottom: 4px; color: var(--acid); font-size: 13px; letter-spacing: .04em; }
+    .stat span { color: var(--muted); font-size: 12px; }
+    section { padding: 100px 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 36px; }
+    .section-head h2 { margin: 8px 0 0; font-size: clamp(34px, 5vw, 54px); line-height: 1.04; letter-spacing: -.05em; }
+    .section-head p { max-width: 360px; margin: 0; color: var(--muted); font-size: 14px; }
+    .projects { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .project { overflow: hidden; background: var(--panel); border: 1px solid var(--line); }
+    .project:first-child { grid-column: span 2; display: grid; grid-template-columns: 1.03fr .97fr; }
+    .visual { position: relative; display: grid; min-height: 240px; overflow: hidden; place-items: center; background: #252d22; }
+    .project:not(:first-child) .visual { min-height: 215px; }
+    .visual svg { width: 100%; height: 100%; min-height: inherit; position: absolute; inset: 0; }
+    .visual-tag { position: absolute; left: 18px; top: 17px; z-index: 2; color: var(--acid); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; }
+    .visual-index { position: absolute; right: 18px; bottom: 12px; z-index: 2; color: #ffffff77; font-size: 10px; letter-spacing: .13em; }
+    .project-copy { padding: 27px 29px 29px; }
+    .project-meta { color: var(--orange); font-size: 10px; font-weight: 750; letter-spacing: .16em; text-transform: uppercase; }
+    .project h3 { margin: 11px 0 10px; font-size: 25px; letter-spacing: -.035em; }
+    .project p { margin: 0; color: #b4bdb0; font-size: 14px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 7px; margin: 18px 0 23px; }
+    .chip { padding: 5px 9px; border: 1px solid var(--line); color: #d3d8cc; font-size: 10px; letter-spacing: .06em; }
+    .text-link { display: inline-flex; align-items: center; gap: 8px; color: var(--acid); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-decoration: none; text-transform: uppercase; }
+    .text-link:hover { color: white; }
+    .about { background: #171f19; border-block: 1px solid var(--line); }
+    .about-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 90px; }
+    .about h2 { margin: 10px 0; font-size: clamp(34px, 5vw, 53px); line-height: 1.04; letter-spacing: -.05em; }
+    .about-copy p { margin: 0 0 17px; color: #bbc4b7; font-size: 16px; }
+    .about-copy strong { color: var(--ink); }
+    .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 28px; }
+    .principle { padding: 17px 16px; border: 1px solid var(--line); }
+    .principle b { display: block; margin-bottom: 5px; color: var(--acid); font-size: 12px; }
+    .principle span { color: var(--muted); font-size: 11px; }
+    .contact { padding-bottom: 76px; }
+    .contact-card { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 38px; border: 1px solid #d5f26466; background: radial-gradient(circle at 90% 20%, #d5f26413, transparent 32%), var(--panel); }
+    .contact h2 { margin: 7px 0 9px; font-size: clamp(34px, 5vw, 54px); letter-spacing: -.05em; }
+    .contact p { max-width: 520px; margin: 0; color: var(--muted); }
+    .contact-links { display: grid; gap: 9px; min-width: 245px; }
+    .contact-links a { color: var(--ink); font-size: 13px; text-decoration: none; }
+    .contact-links a:hover { color: var(--acid); }
+    footer { display: flex; justify-content: space-between; gap: 16px; padding: 22px 0 30px; border-top: 1px solid var(--line); color: #899388; font-size: 11px; }
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 34px, var(--max)); }
+      nav { gap: 15px; }
+      .availability { display: none; }
+      .hero { grid-template-columns: 1fr; gap: 38px; padding: 66px 0 72px; }
+      .portrait-frame { width: min(82%, 410px); justify-self: center; }
+      .stats { grid-template-columns: 1fr; }
+      .stat, .stat:first-child { padding: 15px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+      .stat:last-child { border-bottom: 0; }
+      section { padding: 72px 0; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 14px; }
+      .projects { grid-template-columns: 1fr; }
+      .project:first-child { grid-column: auto; display: block; }
+      .visual, .project:not(:first-child) .visual { min-height: 215px; }
+      .about-grid { grid-template-columns: 1fr; gap: 26px; }
+      .principles { grid-template-columns: 1fr; }
+      .contact-card { display: block; padding: 26px; }
+      .contact-links { margin-top: 25px; }
+    }
+    @media (max-width: 430px) {
+      .topbar { padding: 19px 0; }
+      .wordmark { font-size: 12px; }
+      nav { gap: 12px; }
+      nav a { font-size: 11px; }
+      h1 { font-size: 50px; }
+      .project-copy { padding: 22px; }
+      footer { display: block; }
+      footer span { display: block; margin-top: 5px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="wordmark" href="#top">Sarukesh<span>.</span></a>
+      <nav aria-label="Main navigation">
+        <a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a>
+      </nav>
+      <div class="availability"><i class="dot"></i> OPEN TO BUILDING</div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div>
+          <div class="eyebrow">Hardware · Software · Autonomy</div>
+          <h1 id="hero-title">I build where <em>code</em> meets the real world.</h1>
+          <p class="lede">I’m Sarukesh, an engineer drawn to the hard boundary between software and physical systems—from robots that navigate without GPS to powerful AI running on practical hardware.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#work">Explore selected work&nbsp; ↘</a>
+            <a class="button" href="#contact">Get in touch</a>
+          </div>
+        </div>
+        <div class="portrait-frame">
+          <img class="portrait" src="profile.png" alt="Sarukesh outdoors on a campus terrace">
+          <div class="photo-caption"><span>Builder by instinct</span><span>India · IST</span></div>
+        </div>
+      </section>
+
+      <div class="stats" aria-label="Areas of focus">
+        <div class="stat"><strong>01 / AUTONOMY</strong><span>Perception and navigation under constraints</span></div>
+        <div class="stat"><strong>02 / INTEGRATION</strong><span>AI, embedded software, and physical systems</span></div>
+        <div class="stat"><strong>03 / OPTIMIZATION</strong><span>Making capable hardware go further</span></div>
+      </div>
+
+      <section id="work" aria-labelledby="work-title">
+        <div class="section-head">
+          <div><div class="eyebrow">Selected projects · 01—03</div><h2 id="work-title">Built for the edge.</h2></div>
+          <p>Three projects, one recurring question: how do you make intelligent systems work within real-world limits?</p>
+        </div>
+        <div class="projects">
+          <article class="project">
+            <div class="visual">
+              <span class="visual-tag">Autonomous flight / 01</span>
+              <svg viewBox="0 0 760 400" role="img" aria-label="Illustration of a drone navigating from onboard visual and inertial sensors">
+                <defs><linearGradient id="g1" x1="0" x2="1"><stop stop-color="#273426"/><stop offset="1" stop-color="#18211d"/></linearGradient><pattern id="grid1" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0V36" fill="none" stroke="#d5f264" stroke-opacity=".12"/></pattern></defs>
+                <rect width="760" height="400" fill="url(#g1)"/><rect width="760" height="400" fill="url(#grid1)"/>
+                <path d="M0 320 C150 280 185 300 275 245 S450 180 515 205 S655 145 760 90" fill="none" stroke="#d5f264" stroke-width="2" stroke-dasharray="7 8" opacity=".85"/>
+                <g fill="none" stroke="#d5f264" stroke-width="3" transform="translate(430 185) rotate(-12)"><path d="M0 -38V38M-55 0H55M-55 -10v20m110-20v20"/><circle cx="-60" cy="0" r="17"/><circle cx="60" cy="0" r="17"/><path d="M0-22l16 22-16 22-16-22z" fill="#d5f264" fill-opacity=".22"/></g>
+                <circle cx="114" cy="299" r="4" fill="#ff8e63"/><circle cx="280" cy="241" r="4" fill="#ff8e63"/><circle cx="513" cy="205" r="4" fill="#ff8e63"/><circle cx="692" cy="122" r="4" fill="#ff8e63"/>
+                <g fill="#edf0e8" fill-opacity=".58" font-family="monospace" font-size="10"><text x="36" y="45">GPS // OFFLINE</text><text x="36" y="62">VISUAL ODOMETRY // ACTIVE</text><text x="608" y="360">LOCAL FRAME</text></g>
+              </svg><span class="visual-index">FIELD SYSTEMS — 01</span>
+            </div>
+            <div class="project-copy">
+              <div class="project-meta">Robotics · Visual odometry</div>
+              <h3>GPS-Denied Drone</h3>
+              <p>Designed an autonomous drone that can navigate without satellite positioning, relying on onboard sensors and visual odometry. The work combines C++ and Python with the realities of a moving physical system.</p>
+              <div class="chips"><span class="chip">C++</span><span class="chip">Python</span><span class="chip">Onboard sensing</span></div>
+              <a class="text-link" href="https://drive.google.com/drive/folders/1qwPfflxUCMsUJ_ifeGNqn0hYhJJxMGi4" target="_blank" rel="noreferrer">View project folder ↗</a>
+            </div>
+          </article>
+          <article class="project">
+            <div class="visual">
+              <span class="visual-tag">AI + hardware / 02</span>
+              <svg viewBox="0 0 580 300" role="img" aria-label="Abstract illustration of a high-speed autonomous aircraft">
+                <defs><linearGradient id="g2" x1="0" x2="1"><stop stop-color="#252b25"/><stop offset="1" stop-color="#302620"/></linearGradient><pattern id="grid2" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#ff8e63" stroke-opacity=".12"/></pattern></defs>
+                <rect width="580" height="300" fill="url(#g2)"/><rect width="580" height="300" fill="url(#grid2)"/>
+                <path d="M68 206L293 123l118-66-42 86 130 47-174 7-93 59 26-65z" fill="#d5f264" fill-opacity=".76" stroke="#eaf4bb" stroke-width="2"/>
+                <path d="M55 247H225M100 262H255M366 35H506" stroke="#ff8e63" stroke-width="2" stroke-dasharray="5 7" opacity=".8"/>
+                <circle cx="445" cy="210" r="24" fill="none" stroke="#ff8e63" stroke-width="1.5"/><circle cx="445" cy="210" r="9" fill="none" stroke="#ff8e63"/><path d="M445 177v66M412 210h66" stroke="#ff8e63" opacity=".6"/>
+                <text x="28" y="31" fill="#edf0e8" fill-opacity=".6" font-family="monospace" font-size="10">INTEGRATION / FLIGHT / AI</text>
+              </svg><span class="visual-index">SYSTEMS INTEGRATION — 02</span>
+            </div>
+            <div class="project-copy">
+              <div class="project-meta">Autonomous systems · Defense</div>
+              <h3>Jet-Powered Interceptor</h3>
+              <p>Leading AI and hardware integration for an autonomous jet drone concept designed to respond to kamikaze swarms. A high-speed systems challenge where the intelligence and the airframe must work as one.</p>
+              <div class="chips"><span class="chip">AI integration</span><span class="chip">Hardware systems</span><span class="chip">Autonomy</span></div>
+              <a class="text-link" href="https://drive.google.com/drive/folders/1CG4Lcnt6I4OzTvJWBx_6_JnwCyKMm8WG" target="_blank" rel="noreferrer">View project folder ↗</a>
+            </div>
+          </article>
+          <article class="project">
+            <div class="visual">
+              <span class="visual-tag">Hardware craft / 03</span>
+              <svg viewBox="0 0 580 300" role="img" aria-label="Abstract illustration of a custom PC build with illuminated components">
+                <defs><linearGradient id="g3" x1="0" x2="1"><stop stop-color="#1c2726"/><stop offset="1" stop-color="#252b24"/></linearGradient></defs>
+                <rect width="580" height="300" fill="url(#g3)"/>
+                <rect x="168" y="32" width="225" height="236" rx="4" fill="#121816" stroke="#94a38b" stroke-width="2"/>
+                <rect x="184" y="48" width="193" height="204" fill="#1a231d" stroke="#d5f264" stroke-opacity=".45"/>
+                <circle cx="257" cy="147" r="56" fill="none" stroke="#d5f264" stroke-width="3"/><circle cx="257" cy="147" r="42" fill="none" stroke="#d5f264" stroke-opacity=".55"/><path d="M257 91v112m-56-56h112m-96-40 80 80m0-80-80 80" stroke="#d5f264" stroke-opacity=".5"/>
+                <rect x="326" y="67" width="34" height="82" fill="#344031" stroke="#ff8e63"/><path d="M336 77v62m14-62v62" stroke="#ff8e63" stroke-width="2"/>
+                <path d="M209 225h136M209 215h45" stroke="#d5f264" stroke-opacity=".8"/>
+                <text x="25" y="40" fill="#edf0e8" fill-opacity=".6" font-family="monospace" font-size="10">THERMALS / POWER / PERFORMANCE</text>
+              </svg><span class="visual-index">COMPUTE — 03</span>
+            </div>
+            <div class="project-copy">
+              <div class="project-meta">PC building · Local AI</div>
+              <h3>Custom PC Portfolio</h3>
+              <p>Building PCs since 14 and working in a hardware store built a deep, component-level understanding of performance and trade-offs. That hands-on grounding carries directly into making local AI practical on mid-range machines.</p>
+              <div class="chips"><span class="chip">PC hardware</span><span class="chip">Component tuning</span><span class="chip">Local AI</span></div>
+              <a class="text-link" href="https://drive.google.com/drive/folders/1tEdnYS_YvMyzp7BmKmewZbd7udiluOzg" target="_blank" rel="noreferrer">View project folder ↗</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="about" id="about" aria-labelledby="about-title">
+        <div class="wrap about-grid">
+          <div><div class="eyebrow">The common thread</div><h2 id="about-title">Make the whole system work.</h2></div>
+          <div class="about-copy">
+            <p><strong>I’m interested in the seams.</strong> Sensors meet software. Models meet processors. Specifications meet the messy world outside the lab.</p>
+            <p>My background moves between writing software, integrating hardware, and building PCs. That range helps me see the full system: what it needs, what it can afford, and where a careful optimization changes everything.</p>
+            <div class="principles">
+              <div class="principle"><b>Think end to end</b><span>Design for the complete system</span></div>
+              <div class="principle"><b>Respect constraints</b><span>Make practical limits a design input</span></div>
+              <div class="principle"><b>Build and learn</b><span>Use hands-on work to sharpen ideas</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact" id="contact" aria-labelledby="contact-title">
+        <div class="contact-card">
+          <div><div class="eyebrow">Have a challenging system?</div><h2 id="contact-title">Let’s make it work.</h2><p>For collaborations, engineering conversations, or a project that needs someone comfortable across software and hardware.</p></div>
+          <div class="contact-links">
+            <a href="mailto:sarukesh7768@gmail">✉&nbsp; sarukesh7768@gmail</a>
+            <a href="tel:+917845459680">☎&nbsp; +91 7845459680</a>
+            <a href="https://drive.google.com/drive/folders/1qwPfflxUCMsUJ_ifeGNqn0hYhJJxMGi4" target="_blank" rel="noreferrer">↗&nbsp; Browse project artifacts</a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer><div>© 2026 Sarukesh</div><span>Built around the work, and the systems behind it.</span></footer>
+  </div>
+</body>
+</html>
